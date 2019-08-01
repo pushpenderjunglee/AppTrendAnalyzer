@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+    table
+    {
+    width: 50% !important;
+}
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div>
+    <ul class="nav nav-tabs cola">
+        <li class="nav-item ">
+          <a class="nav-link active col1 a1"  type="1" value="NEW_FREE" href="#">NEW FREE</a>
+        </li>
+        <li class="nav-item col">
+          <a class="nav-link col1 a1" href="#" type="1" value="NEW_PAID">NEW PAID</a>
+        </li>
+        <li class="nav-item col">
+          <a class="nav-link col1 a1" href="#" type="1" value="TOP_FREE">TOP FREE</a>
+        </li>
+        <li class="nav-item col">
+          <a class="nav-link col1 a1" href="#" type="1" value="TOP_PAID">TOP PAID</a>
+        </li>
+        <li class="nav-item col">
+                <a class="nav-link col1 a1" href="#" type="1" value="TOP_GROSSING">TOP GROSSING</a>
+        </li>
+        <li class="nav-item col">
+                <a class="nav-link col1 a1" href="#" type="1" value="TRENDING">TRENDING</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+        <ul class="nav nav-pills tac">
+            <li class="nav-item cat">
+                <a class="nav-link  col1 active a2" href="#" type="2" value="GAME">GAME</a>
+            </li>
+            <li class="nav-item cat">
+                <a class="nav-link col1 a2" href="#" type="2"  value="GAME_ACTION">GAME ACTION</a>
+            </li>
+            <li class="nav-item cat">
+                <a class="nav-link col1 a2" href="#" type="2" value="GAME_ADVENTURE">GAME ADVENTURE</a>
+            </li>
+            <li class="nav-item cat">
+                <a class="nav-link  col1 a2" href="#" type="2" value="GAME_ARCADE">GAME ARCADE</a>
+            </li>
+            <li class="nav-item cat">
+                    <a class="nav-link  col1 a2" href="#" type="2" value="GAME_BOARD">GAME BOARD</a>
+            </li>
+            <li class="nav-item cat">
+                <a class="nav-link col1 a2" href="#" type="2" value="GAME_CARD">GAME CARD</a>
+            </li>
+            <li class="nav-item cat">
+                <a class="nav-link col1 a2" href="#" type="2" value="GAME_CASINO">GAME CASINO</a>
+            </li>
+          </ul>
+    </div>
+    <div id="t1">
+    <table class="table"style="margin-top:30px;">
+            <thead>
+                <tr>
+                <th scope="col">App Id</th>
+                <th scope="col">Icon</th>
+                <th scope="col">Url</th>
+                <th scope="col">Title</th>
+                <th scope="col">Developer</th>
+                <th scope="col">Score</th>
+                <th scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+               {% for i in range(0, len) %}
+                <tr>
+                <td scope="row" style="width:50px;">{{data[i][0]}}</td>
+                <td><img src="{{data[i][1]}}" alt="" height="100" width="100"/></td>
+                <td>{{data[i][2]}}</td>
+                <td>{{data[i][3]}}</td>
+                <td>{{data[i][4]}}</td>
+                <td>{{data[i][5]}}</td>
+                <td>{{data[i][6]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+    </div>
+            
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+ 
+$('.col1').click(function(){
+    let type= $(this).attr("type");
+    if(type==1){
+        $( ".a1" ).removeClass( "active" );
+        $(this).addClass("active");
+        
+    }else{
+        $(".a2" ).removeClass( "active" );
+        $(this).addClass("active");
+    }
+    if($('.cola li .active').attr("value")=='NEW_PAID' && $('.tac li .active').attr("value")=="GAME_CASINO"){
+            $("#t1").empty();
+            $("#t1").html("<h3>Sorry, No Data Exists</h3>");
+            exit();
+        }
+    let cat=  $('.tac li .active').attr("value");
+    let col = $('.cola li .active').attr("value");
+    // alert(cat+"  "+col);
+    $.ajax({
+            url : '/getdata', // the endpoint
+            type : 'POST', // http method
+            data : {col :col,cat:cat}, // data sent with the post request
+    }).done(function(data){
+        if(data.error){
+            alert("errr");
+        }else{
+            $("#t1").html(data);
+            // alert("success",+data);
+        }   
+     });
+});
+</script>
+</body>
+</html>

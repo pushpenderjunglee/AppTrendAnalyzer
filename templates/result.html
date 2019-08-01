@@ -1,0 +1,26 @@
+<table class="table" style="margin-top:30px;">
+  <thead>
+      <tr>
+      <th scope="col">App_id</th>
+      <th scope="col">Icon</th>
+      <th scope="col">Url</th>
+      <th scope="col">Title</th>
+      <th scope="col">Developer</th>
+      <th scope="col">Score</th>
+      <th scope="col">Price</th>
+      </tr>
+  </thead>
+  <tbody>
+     {% for i in range(0, len) %}
+      <tr>
+      <td scope="row" style="width:50px;">{{data[i][0]}}</td>
+      <td><img src="{{data[i][1]}}" alt="" height="100" width="100"/></td>
+      <td>{{data[i][2]}}</td>
+      <td>{{data[i][3]}}</td>
+      <td>{{data[i][4]}}</td>
+      <td>{{data[i][5]}}</td>
+      <td>{{data[i][6]}}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+  </table>
